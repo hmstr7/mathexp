@@ -1,4 +1,5 @@
 # mathexp
+[![GLWTPL](https://img.shields.io/badge/GLWT-Public_License-red.svg)](https://github.com/me-shaon/GLWTPL)
 Useless and overengineered calculator written in python. Uses custom math expression form that allows some simple actions.
 ## How to use
 Mathexp parses simple expressions that are written strictly following specific form, for example:
@@ -20,3 +21,5 @@ Mathexp parses simple expressions that are written strictly following specific f
 
 ## Installing
 There isn`t much to say, this is just your usual python script. You can use it as a library (class Calculator from mathexp/operations.py), or just run calc.py. That's all.
+## License
+This project is licensed under [GLWTPL](https://github.com/me-shaon/GLWTPL) (The best license ever and also the first thing I saw in recommendations)
