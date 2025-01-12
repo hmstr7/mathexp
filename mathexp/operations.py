@@ -83,7 +83,7 @@ class Calculator:
             return st1.range_s(args)
         except Exception as e:
             return e
-            
+           
         
     #######################
 
@@ -96,6 +96,7 @@ class Calculator:
             expdict=[] 
             numarray=False
             in_subexpression=False
+            in_special=False
             subexpression_contents=""
             valid_operands=list(operands.keys())
             curr_operation={"operation":"","arguments":[]}
@@ -137,7 +138,24 @@ class Calculator:
                         if char=="]":
                             if curr_numarg!="":
                                 try:
-                                    if "..." in curr_numarg:
+                                    if curr_numarg[0]=="_":
+                                        if "<" in curr_numarg:
+                                            try:
+                                                import mathexp.special
+                                                curr_numarg=curr_numarg[1:]
+                                                func_n_args=curr_numarg.split("<")
+                                                try:
+                                                    func_name=mathexp.special.special_alias[func_n_args[0]]
+                                                    func=getattr(mathexp.special,func_name)
+                                                except:
+                                                    try:
+                                                        func=getattr(mathexp.special,func_n_args[0])
+                                                    except:
+                                                        raise Exception("Invalid argument: incorrect special")
+                                                numargs.append(func(func_n_args[1]))
+                                            except:
+                                                raise Exception("Invalid argument: incorrect special")
+                                    elif "..." in curr_numarg:
                                         sp=curr_numarg.split("...")
                                         numargs.extend(range(int(sp[0]),int(sp[1])))
                                     else:
@@ -152,14 +170,33 @@ class Calculator:
                                                 raise Exception("invalid argument: "+curr_numarg)
                                 except:
                                     raise Exception("invalid argument: "+curr_numarg)
+                            
                             numarray=False
                             curr_operation["arguments"]=numargs
                             numargs=[]
                             expdict.append(curr_operation)
                             curr_operation={"operation":"","arguments":[]}
+                            curr_numarg=""
                         elif char==",":
                             try:
-                                if "..." in curr_numarg:
+                                if curr_numarg[0]=="_":
+                                    if "<" in curr_numarg:
+                                        try:
+                                            import mathexp.special
+                                            curr_numarg=curr_numarg[1:]
+                                            func_n_args=curr_numarg.split("<")
+                                            try:
+                                                func_name=mathexp.special.special_alias[func_n_args[0]]
+                                                func=getattr(mathexp.special,func_name)
+                                            except:
+                                                try:
+                                                    func=getattr(mathexp.special,func_n_args[0])
+                                                except:
+                                                    raise Exception("Invalid argument: incorrect special")
+                                            numargs.append(func(func_n_args[1]))
+                                        except:
+                                            raise Exception("Invalid argument: incorrect special")
+                                elif "..." in curr_numarg:
                                     sp=curr_numarg.split("...")
                                     numargs.extend(range(int(sp[0]),int(sp[1])))
                                 else:
